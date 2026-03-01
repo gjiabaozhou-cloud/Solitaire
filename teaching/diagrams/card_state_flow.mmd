@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant User
+    participant View
+    participant Controller
+    participant Model
+
+    User->>View: click 'Deal'
+    View->>Controller: handle click
+    Controller->>Model: draw_from_stock(state)
+    Model-->>Controller: new_state (card moved to waste, top flipped)
+    Controller->>View: render(new_state)

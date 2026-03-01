@@ -1,3 +1,4 @@
+"""Lesson 06 deck: local copy for the game-model lesson."""
 from typing import List, Tuple
 import random
 
@@ -8,7 +9,6 @@ SUITS = ['♠','♥','♦','♣']
 
 
 def make_card(rank: str, suit: str) -> Card:
-    """Create an immutable card represented as a (rank, suit) tuple."""
     return (rank, suit)
 
 
@@ -17,29 +17,22 @@ def card_str(card: Card) -> str:
 
 
 def generate_deck() -> List[Card]:
-    """Return a new ordered list of 52 cards (as tuples)."""
     return [make_card(rank, suit) for suit in SUITS for rank in RANKS]
 
 
 def shuffle_deck(deck: List[Card]) -> List[Card]:
-    """Return a new list with the cards shuffled (pure function).
-
-    Does not mutate the input `deck`.
-    """
     new_deck = deck.copy()
     random.shuffle(new_deck)
     return new_deck
 
 
 def draw_top(deck: List[Card]):
-    """Return (top_card, remaining_deck). Raises IndexError if empty."""
     if not deck:
         raise IndexError('draw from empty deck')
     return deck[0], deck[1:]
 
 
 def draw_many(deck: List[Card], n: int):
-    """Return (drawn_list, remaining_deck). Raises IndexError if not enough cards."""
     if n < 0:
         raise ValueError('n must be >= 0')
     if n > len(deck):
@@ -48,21 +41,12 @@ def draw_many(deck: List[Card], n: int):
 
 
 def cut_deck(deck: List[Card], index: int) -> List[Card]:
-    """Return a new deck which is the original cut at `index`.
-
-    Example: cut_deck([1,2,3,4], 2) -> [3,4,1,2]
-    """
     if not (0 <= index <= len(deck)):
         raise IndexError('cut index out of range')
     return deck[index:] + deck[:index]
 
 
 def deal_tableau(deck: List[Card]):
-    """Deal the Klondike tableau: 7 piles with 1..7 cards.
-
-    Returns (tableau, stock) where tableau is a list of 7 lists and stock
-    is the remaining deck after dealing.
-    """
     piles: List[List[Card]] = []
     offset = 0
     for i in range(7):
@@ -70,8 +54,3 @@ def deal_tableau(deck: List[Card]):
         piles.append(deck[offset:offset + count])
         offset += count
     return piles, deck[offset:]
-
-
-if __name__ == "__main__":
-    d = generate_deck()
-    print(len(d), [card_str(c) for c in d[:5]])

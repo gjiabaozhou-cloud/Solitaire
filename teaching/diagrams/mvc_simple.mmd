@@ -1,0 +1,4 @@
+flowchart LR
+  View["View\n(draws cards)"] -->|user action| Controller["Controller\n(event handlers)"]
+  Controller -->|calls| Model["Model\n(pure state & functions)"]
+  Model -->|returns state| View

@@ -1,0 +1,13 @@
+flowchart LR
+  subgraph UI
+    View["View\n(UI Canvas / Widgets)"]
+  end
+  subgraph Controller
+    Ctrl["Controller\n(event handlers) "]
+  end
+  subgraph Model
+    Model["Model\n(game_model functions)\n(state = piles, stock, waste, foundations)"]
+  end
+  View -->|user action (click/drag)| Ctrl
+  Ctrl -->|calls pure functions| Model
+  Model -->|returns new state| View
