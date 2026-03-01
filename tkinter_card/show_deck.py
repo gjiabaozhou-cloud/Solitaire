@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import font
-from deck import generate_deck, shuffle_deck, Card
-from typing import List
+from deck import generate_deck, shuffle_deck, card_str, draw_top
+from typing import List, Tuple
+
+Card = Tuple[str, str]
 
 
 class DeckViewer(tk.Tk):
@@ -46,17 +48,17 @@ class DeckViewer(tk.Tk):
         for i, card in enumerate(self.deck):
             r = i // cols
             c = i % cols
-            fg = 'red' if card.suit in ('♥','♦') else 'black'
-            lbl = tk.Label(self.card_frame, text=str(card), relief='raised', bd=2,
+            fg = 'red' if card[1] in ('♥','♦') else 'black'
+            lbl = tk.Label(self.card_frame, text=card_str(card), relief='raised', bd=2,
                            width=4, height=2, font=self.card_font, fg=fg, bg='white')
             lbl.grid(row=r, column=c, padx=3, pady=3)
             lbl.bind('<Button-1>', lambda e, card=card: self.on_card_click(card))
 
     def on_card_click(self, card: Card):
-        self.message.config(text=f"Selected: {card.rank} of {card.suit}")
+        self.message.config(text=f"Selected: {card[0]} of {card[1]}")
 
     def shuffle(self):
-        shuffle_deck(self.deck)
+        self.deck = shuffle_deck(self.deck)
         self.draw_cards()
 
     def reset(self):
@@ -67,8 +69,8 @@ class DeckViewer(tk.Tk):
         if not self.deck:
             self.message.config(text='Deck is empty')
             return
-        top = self.deck.pop(0)
-        self.message.config(text=f"Dealt: {top}")
+        top, self.deck = draw_top(self.deck)
+        self.message.config(text=f"Dealt: {card_str(top)}")
         self.draw_cards()
 
 
