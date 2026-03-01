@@ -1,0 +1,26 @@
+# Byte-compiled / optimized files
+__pycache__/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# pytest / mypy caches
+.pytest_cache/
+.mypy_cache/
+
+# Build / packaging
+build/
+dist/
+
+# Editor directories
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local env files
+.env
